@@ -1,0 +1,56 @@
+public class Solution {
+    /**
+     * 计算你能获得的最大收益
+     * 
+     * @param prices Prices[i]即第i天的股价
+     * @return 整型
+     */
+    public int calculateMax(int[] prices) {
+        int max=0;
+        int a1=0;  
+        // 只卖一次
+        for(int i=0;i<=(prices.length-2);i++) {
+            a1=0;
+            for(int j=i+1;j<=(prices.length-1);j++)
+            {
+                if(prices[j]>a1) {
+                    a1= prices[j];
+                }
+            }
+            if(max<(a1-prices[i]))
+            {
+                max=a1-prices[i];
+            }
+        }
+        //可以卖出两次，确定两个买进点的值，遍历两段间最大值，然后作差和保留值比较
+        if(prices.length>=4)
+        {
+            for(int i=0;i<=(prices.length-4);i++)
+            {
+                for(int j=i+2;j<=(prices.length-2);j++)
+                {
+                    int a2=0;
+                    int a4=0;
+                    for(int k=i+1;k<j;k++)
+                    {
+                        if(prices[k]>a2)
+                        {
+                            a2= prices[k];
+                        }
+                    }
+                    for(int m=j+1;m<=(prices.length-1);m++) {
+                        if(prices[m]>a4)
+                        {
+                            a4= prices[m];
+                        }
+                    }
+                    
+                    if(max<(a2+a4-prices[i]-prices[j])) {
+                        max=a2+a4-prices[i]-prices[j];
+                    }
+                } 
+            }
+        }
+        return max;
+    }
+}
